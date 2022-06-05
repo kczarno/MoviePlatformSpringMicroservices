@@ -3,6 +3,7 @@ package com.czarnowski.moviecatalogservice.resources;
 import com.czarnowski.moviecatalogservice.models.CatalogItem;
 import com.czarnowski.moviecatalogservice.models.Movie;
 import com.czarnowski.moviecatalogservice.models.Rating;
+import com.czarnowski.moviecatalogservice.models.UserRating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,37 +29,34 @@ public class MovieCatalogResource {
     }
 
 
-
     @RequestMapping("/{userId}")
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
 
-        List<Rating> ratings = Arrays.asList(
-                new Rating("1234", 4),
-                new Rating("5678", 3)
-        );
+        UserRating ratings = restTemplate.getForObject("http://localhost:8083/ratingsdata/users/" + userId,
+                UserRating.class);
 
-        return ratings.stream()
+        return ratings.getUserRating().stream()
                 .map(rating -> {
                     // get movie object for synchronous RestTemplate
-                     Movie movie = restTemplate.getForObject("http://localhost:8082/movies/" + rating.getMovieId(), Movie.class);
+                    // For each movie ID, call movie info service and get details
+                    Movie movie = restTemplate.getForObject("http://localhost:8082/movies/" + rating.getMovieId(), Movie.class);
 
-                    // get movie object for asynchronous WebClient
+                    // Put them all together
+                    return new CatalogItem(movie.getName(), "Desc", rating.getRating());
+                })
+                .collect(Collectors.toList());
+
+    }
+}
+
+
+// get movie object for asynchronous WebClient
+// Reactive alternative to the RestTemplate
                     /*
                     Movie movie = webClientBuilder.build()
                             .get()
                             .uri("http://localhost:8082/movies/" + rating.getMovieId())
                             .retrieve()
                             .bodyToMono(Movie.class) //Mono object can become an object that we need eventually
-                            .block();
+                            .block(); //block waits for Movie object - again synchronous
                      */
-
-                    return new CatalogItem(movie.getName(), "Desc", rating.getRating());
-                })
-                .collect(Collectors.toList());
-
-
-        // for each movie ID, call movie info service an get details
-
-        // put them all together
-    }
-}
