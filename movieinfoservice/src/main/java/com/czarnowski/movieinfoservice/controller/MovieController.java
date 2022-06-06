@@ -19,11 +19,11 @@ public class MovieController {
         this.movieRepository = movieRepository;
     }
 
-    @GetMapping("/{id}")
-    public Movie getMovieInfo(@PathVariable("id") Long id) {
+    @GetMapping("/{name}")
+    public Movie getMovieInfo(@PathVariable("name") String name) {
 
-        return movieRepository.findById(id)
-                .orElseThrow(() -> new MovieNotFoundException(id));
+        return movieRepository.findMovieByName(name)
+                .orElseThrow(() -> new MovieNotFoundException(name));
 
     }
 

@@ -1,15 +1,11 @@
-package com.czarnowski.movieinfoservice.models;
+package com.czarnowski.moviecatalogservice.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
 import java.util.Objects;
 
-@Entity
+
 public class Movie {
 
-    @Id
-    @GeneratedValue
     private Long id;
 
     private String name;

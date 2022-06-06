@@ -3,6 +3,7 @@ package com.czarnowski.movieinfoservice.models;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,6 +12,8 @@ public class Movie {
     @Id
     @GeneratedValue
     private Long id;
+
+//    private List<>
 
     private String name;
 

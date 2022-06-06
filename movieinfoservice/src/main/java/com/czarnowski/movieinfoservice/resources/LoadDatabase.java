@@ -19,6 +19,7 @@ public class LoadDatabase {
             movieRepository.save(new Movie("Spiderman"));
             movieRepository.save(new Movie("Scarface"));
             movieRepository.save(new Movie("Big Short"));
+            movieRepository.save(new Movie("Transformers"));
 
             movieRepository.findAll().forEach(movie -> log.info("Preloaded " + movie));
         };

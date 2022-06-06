@@ -2,7 +2,7 @@ package com.czarnowski.movieinfoservice.controller;
 
 public class MovieNotFoundException extends RuntimeException {
 
-    MovieNotFoundException(Long id) {
-        super("Could not find a movie with id: " + id);
+    MovieNotFoundException(String name) {
+        super("Could not find a movie with name: " + name);
     }
 }
