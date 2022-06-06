@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/movies")
 public class MovieController {
@@ -22,6 +24,13 @@ public class MovieController {
 
         return movieRepository.findById(id)
                 .orElseThrow(() -> new MovieNotFoundException(id));
+
+    }
+
+    @GetMapping
+    public List<Movie> getAllMovies() {
+
+        return movieRepository.findAll();
 
     }
 
