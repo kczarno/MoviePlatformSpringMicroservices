@@ -28,20 +28,22 @@ public class MovieCatalogResource {
         this.restTemplate = restTemplate;
     }
 
-
     @RequestMapping("/{userId}")
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
 
         UserRating ratings = restTemplate.getForObject("http://ratingsdataservice/ratingsdata/users/" + userId,
                 UserRating.class);
 
+        assert ratings != null : "User rating is null";
         return ratings.getUserRating().stream()
                 .map(rating -> {
                     // get movie object for synchronous RestTemplate
                     // For each movie ID, call movie info service and get details
-                    Movie movie = restTemplate.getForObject("http://movieinfoservice/movies/" + rating.getMovieId(), Movie.class);
+                    Movie movie = restTemplate.getForObject("http://movieinfoservice/movies/" + rating.getMovieId(),
+                            Movie.class);
 
                     // Put them all together
+                    assert movie != null : "Movie name is null";
                     return new CatalogItem(movie.getName(), "Desc", rating.getRating());
                 })
                 .collect(Collectors.toList());
