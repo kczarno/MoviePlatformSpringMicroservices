@@ -16,8 +16,12 @@ public class LoadDatabase {
     CommandLineRunner initUserRatingDatabase(RatingRepository ratingRepository) {
 
         return args -> {
-            ratingRepository.save(new Rating("Karol", "Transformers", 4));
+            ratingRepository.save(new Rating("Karol", "Transformers", 3));
+            ratingRepository.save(new Rating("Karol", "Matrix", 5));
+            ratingRepository.save(new Rating("Karol", "Trainspotting", 4));
+
             ratingRepository.save(new Rating("Tomasz", "Matrix", 3));
+
             ratingRepository.save(new Rating("Robert", "Trainspotting", 5));
 
             ratingRepository.findAll().forEach(rating -> log.info("Preloaded " + rating));
